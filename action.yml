@@ -1,0 +1,61 @@
+name: GitHub Deployments
+description: GitHub action for working painlessly with deployment statuses.
+author: 'step-security'
+branding:
+  icon: bookmark
+  color: yellow
+runs:
+  using: node24
+  main: dist/index.js
+
+inputs:
+  step:
+    required: true
+    description: One of 'start', 'finish', 'deactivate-env', or 'delete-env'
+  token:
+    required: true
+    description: GitHub access token
+    default: ${{ github.token }}
+  env:
+    required: true
+    description: The name of the deployment environment in GitHub to create statuses in.
+  repository:
+    required: false
+    description: Set status for a different repository, using the format `$owner/$repository` (optional, defaults to the current repository)
+  logs:
+    required: false
+    description: URL to logs
+  desc:
+    required: false
+    description: Description to set in status
+  ref:
+    required: false
+    description: The git ref to use for the deploy, defaults to `github.ref`
+  task:
+    required: false
+    description: The task to assign to the deployment, defaults to 'deploy'
+
+  debug:
+    required: false
+    description: Print arguments used by this action and other debug information.
+    default: 'false'
+
+  deployment_id:
+    required: false
+    description: The deployment ID to update (if specified during `start`, the deployment will be updated instead of creating a new one)
+  env_url:
+    required: false
+    description: The environment URL (for `finish` only)
+  status:
+    required: false
+    description: The deployment status (for `finish` only)
+  override:
+    required: false
+    description: Whether to manually mark existing deployments of this environment as inactive (for `start` and `finish` only)
+  auto_inactive:
+    required: false
+    description: Whether to mark existing deployments as inactive if a deployment succeeds (for `finish` only)
+    default: 'false'
+  payload:
+    required: false
+    description: JSON-formatted dictionary with extra information about the deployment (for `start` only)
